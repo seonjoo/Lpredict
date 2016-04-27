@@ -86,7 +86,7 @@ lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL,
 #  print(hattheta)
 #  print(ncov)
   beta0 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
-  beta1 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
+  beta1 = lfpca$phix1[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
   return(list(nonzeroindx = nonzeroindx, nonzeroindx2 = nonzeroindx2,refit=refit, beta0=beta0,beta1=beta1,hattheta=hattheta))
 
 }
