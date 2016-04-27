@@ -67,7 +67,7 @@ lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL,
   colnames(lfpca$phix0) <- paste('LPC', 1:lfpca$Nx, sep='')
   colnames(lfpca$phix1) <- paste('LPC', 1:lfpca$Nx, sep='')
 
-  nonzeroindx =  which(coefs!=0)-1
+  nonzeroindx =  which(coefs[-1]!=0)
 
   nonzeroindx2 =  (coefs[-c(0:ncov +1)]!=0)
 ## extract selected components
