@@ -5,8 +5,8 @@
 \title{Conduct longitudinal principal component regression analysis}
 \usage{
 lpcr_lasso(Y, T = NULL, J = NULL, I = NULL, visit = NULL,
-  lfpca = NULL, cov = NULL, Nx, nfold = 10,
-  lambdalist = 2^(c(-10:10)/2), penalty.factor = NULL, M = NULL)
+  lfpca = NULL, cov = NULL, nfold = 10, lambdalist = 2^(c(-10:10)/2),
+  penalty.factor = NULL, M = NULL, seednum = 1234)
 }
 \arguments{
 \item{Y}{A number}
