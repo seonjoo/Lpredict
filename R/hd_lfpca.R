@@ -66,6 +66,7 @@ print("hi")
 	k=0
 	J_sq=0
 	for (j in 1:I){
+#	  print(j)
 		s = 1;
         	Ji = visit[j];
 		Ti = T[(1:Ji)+k];

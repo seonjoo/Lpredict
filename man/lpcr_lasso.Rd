@@ -48,6 +48,9 @@ lpcr_lasso(Y,lfpca=re)
 \author{
 Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
 }
+\references{
+TBA
+}
 \keyword{glmnet}
 \keyword{hdlfpca}
 

@@ -18,7 +18,7 @@
 #' re<-hd_lfpca(Ydat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
 #' lpcr_lasso(Y,lfpca=re)
 #' @author Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
-#' @references
+#' @references TBA
 #' @keywords hdlfpca glmnet
 #' @export
 
@@ -47,7 +47,7 @@ lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL,
 
   rownames(lfpca$xi)<-paste('LPC',1:lfpca$Nx,sep='')
   X = cbind(cov,t(lfpca$xi))
-  print(head(X))
+#  print(head(X))
   Nx = lfpca$Nx
 
   if(is.null(penalty.factor)){
@@ -82,9 +82,9 @@ lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL,
 
   hattheta = as.matrix(coef(refit))
 
-  print(dim(lfpca$phix0[,nonzeroindx2]))
-  print(hattheta)
-  print(ncov)
+#  print(dim(lfpca$phix0[,nonzeroindx2]))
+#  print(hattheta)
+#  print(ncov)
   beta0 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
   beta1 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
   return(list(nonzeroindx = nonzeroindx, nonzeroindx2 = nonzeroindx2,refit=refit, beta0=beta0,beta1=beta1,hattheta=hattheta))
