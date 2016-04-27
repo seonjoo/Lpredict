@@ -24,15 +24,15 @@ lfpcr_boot<-function(datct=NULL,idlist=NULL,B=100,
 require(parallel)
   if(.Platform$OS.type=='windows'){
     print("multicore computing is under construction for windows environment." )
-    z<-lapply(1:B,function(j){lfpcr_boot_oneunit(datct=datct,idlist=idlist,seednum=j,
+    z<-lapply(1:B,function(j){try(lfpcr_boot_oneunit(datct=datct,idlist=idlist,seednum=j,
                                                    idvar=idvar,timevar=timevar,inYrs=inYrs,predvarlist=predvarlist,outcomevar=outcomevar,covariates=covariates,
-                                                   varthresh=varthresh,lambdalist = lambdalist, penalty.factor=penalty.factor,nfold=nfold)})
+                                                   varthresh=varthresh,lambdalist = lambdalist, penalty.factor=penalty.factor,nfold=nfold))})
   }
   if(.Platform$OS.type=='unix'){
     print("parallel package is used for multicore computation." )
-    z<-mclapply(1:B,function(j){lfpcr_boot_oneunit(datct=datct,idlist=idlist,seednum=j,
+    z<-mclapply(1:B,function(j){try(lfpcr_boot_oneunit(datct=datct,idlist=idlist,seednum=j,
                                                    idvar=idvar,timevar=timevar,inYrs=inYrs,predvarlist=predvarlist,outcomevar=outcomevar,covariates=covariates,
-                                                   varthresh=varthresh,lambdalist = lambdalist, penalty.factor=penalty.factor,nfold=nfold)},mc.cores=mc.cores)
+                                                   varthresh=varthresh,lambdalist = lambdalist, penalty.factor=penalty.factor,nfold=nfold))},mc.cores=mc.cores)
   }
 
 
