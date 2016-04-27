@@ -34,8 +34,7 @@ require(parallel)
                                                    idvar=idvar,timevar=timevar,inYrs=inYrs,predvarlist=predvarlist,outcomevar=outcomevar,covariates=covariates,
                                                    varthresh=varthresh,lambdalist = lambdalist, penalty.factor=penalty.factor,nfold=nfold))},mc.cores=mc.cores)
   }
-
-
-  return(list(beta0=lapply(z,function(x){x$lpcrre$beta0}), beta1=lapply(z,function(x){x$lpcrre$beta1})))
+return(z)
+#  return(list(beta0=lapply(z,function(x){x$lpcrre$beta0}), beta1=lapply(z,function(x){x$lpcrre$beta1})))
 
 }
