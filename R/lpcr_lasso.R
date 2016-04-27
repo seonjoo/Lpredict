@@ -1,6 +1,29 @@
-library(glmnet)
-lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL, Nx,nfold=10,lambdalist = 2^(c(-10:10)/2), penalty.factor=NULL, M=NULL){
+#' Conduct longitudinal principal component regression analysis
+#'
+#' @param Y A number
+#' @param T A number
+#' @param J A number
+#' @param I A number
+#' @param visit A number
+#' @param cov Covariate
+#' @param varthresh A number
+#' @param projectthresh A number
+#' @param timeadjust A number
+#' @return xi
+#' @return phix0
+#' @return phix1
+#' @return zeta
+#' @return phiw
+#' @examples
+#' re<-hd_lfpca(Ydat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
+#' lpcr_lasso(Y,lfpca=re)
+#' @author Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
+#' @references
+#' @keywords hdlfpca glmnet
+#' @export
 
+lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL, Nx,nfold=10,lambdalist = 2^(c(-10:10)/2), penalty.factor=NULL, M=NULL){
+  library(glmnet)
   ## If lfpca is has not been conducted, it will run.
   if (is.null(lfpca)){
     if (is.null(T) |  is.null(J) | is.null(I) | is.null(visit)){
