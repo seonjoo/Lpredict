@@ -1,6 +1,7 @@
 #' Conduct longitudinal principal component regression analysis
 #'
-#' @param Y A number
+#' @param Y Outcome in PCR
+#' @param Xmat Longitudinal Predictor Matrix
 #' @param T A number
 #' @param J A number
 #' @param I A number
@@ -15,7 +16,7 @@
 #' @return zeta
 #' @return phiw
 #' @examples
-#' re<-hd_lfpca(Ydat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
+#' re<-hd_lfpca(Ydat,Xmat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
 #' lpcr_lasso(Y,lfpca=re)
 #' @author Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
 #' @references TBA
