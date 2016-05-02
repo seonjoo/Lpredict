@@ -4,12 +4,14 @@
 \alias{lpcr_lasso}
 \title{Conduct longitudinal principal component regression analysis}
 \usage{
-lpcr_lasso(Y, T = NULL, J = NULL, I = NULL, visit = NULL,
+lpcr_lasso(Y, Xmat = NULL, T = NULL, J = NULL, I = NULL, visit = NULL,
   lfpca = NULL, cov = NULL, nfold = 10, lambdalist = 2^(c(-10:10)/2),
   penalty.factor = NULL, M = NULL, seednum = 1234)
 }
 \arguments{
-\item{Y}{A number}
+\item{Y}{Outcome in PCR}
+
+\item{Xmat}{Longitudinal Predictor Matrix}
 
 \item{T}{A number}
 
@@ -42,7 +44,7 @@ phiw
 Conduct longitudinal principal component regression analysis
 }
 \examples{
-re<-hd_lfpca(Ydat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
+re<-hd_lfpca(Ydat,Xmat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
 lpcr_lasso(Y,lfpca=re)
 }
 \author{
