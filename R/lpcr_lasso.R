@@ -22,17 +22,17 @@
 #' @keywords hdlfpca glmnet
 #' @export
 
-lpcr_lasso <- function(Y,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL,
+lpcr_lasso <- function(Y,Xmat=NULL,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, cov=NULL,
                        nfold=10,lambdalist = 2^(c(-10:10)/2), penalty.factor=NULL, M=NULL,
                        seednum=1234){
   library(glmnet)
   ## If lfpca is has not been conducted, it will run.
   if (is.null(lfpca)){
-    if (is.null(T) |  is.null(J) | is.null(I) | is.null(visit)){
+    if (is.null(Xmat) | is.null(T) |  is.null(J) | is.null(I) | is.null(visit)){
       print('LFPCA has not been run, and the required parameters for LFPCA were not specified.')
       break
     }else{
-        system.time(lfpc<-hd_lfpca(Y,T,J,I,visit,varthresh = 0.85, timeadjust=FALSE, figure=TRUE))
+        system.time(lfpc<-hd_lfpca(Xmat,T,J,I,visit,varthresh = 0.85, timeadjust=FALSE, figure=TRUE))
     }
   }
 
