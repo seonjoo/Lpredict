@@ -33,7 +33,7 @@ lpcr_lasso <- function(Y,Xmat=NULL,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, 
       print('LFPCA has not been run, and the required parameters for LFPCA were not specified.')
       break
     }else{
-        system.time(lfpc<-hd_lfpca(Xmat,T,J,I,visit,varthresh = 0.85, timeadjust=FALSE, figure=TRUE))
+        system.time(lfpca<-hd_lfpca(Xmat,T,J,I,visit,varthresh = 0.85, timeadjust=FALSE, figure=TRUE))
     }
   }
 
