@@ -70,6 +70,10 @@ lpcr_lasso <- function(Y,Xmat=NULL,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, 
 
   nonzeroindx =  which(coefs[-1]!=0)
 
+  if(length(nonzeroindx)>0){
+    print('nonzero indeces in the predictors:')
+    print(nonzeroindx)
+  }
   nonzeroindx2 =  (coefs[-c(0:ncov +1)]!=0)
 ## extract selected components
 #  if (is.null(M)) {
@@ -77,17 +81,20 @@ lpcr_lasso <- function(Y,Xmat=NULL,T=NULL,J=NULL,I=NULL,visit=NULL, lfpca=NULL, 
 #  } else{
 #    logic <- (coef!=0)[-c(0:dim(M)[2]+1)]
 #  }
-
-  refit = glmnet(X[,nonzeroindx],Y, family='binomial', alpha = 1, lambda =0)
-
-
-  hattheta = as.matrix(coef(refit))
+  refit=NULL
+  beta0=NULL
+  beta1=NULL
+  hattheta=NULL
+  if(length(nonzeroindx)>0){
+    refit = glmnet(X[,nonzeroindx],Y, family='binomial', alpha = 1, lambda =0)
+    hattheta = as.matrix(coef(refit))
 
 #  print(dim(lfpca$phix0[,nonzeroindx2]))
 #  print(hattheta)
 #  print(ncov)
-  beta0 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
-  beta1 = lfpca$phix1[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
+    beta0 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
+    beta1 = lfpca$phix1[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
+  }
   return(list(nonzeroindx = nonzeroindx, nonzeroindx2 = nonzeroindx2,refit=refit, beta0=beta0,beta1=beta1,hattheta=hattheta))
 
 }
