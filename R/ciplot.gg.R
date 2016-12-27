@@ -3,8 +3,7 @@
 #' @param d Bootstrapped coefficients
 #' @param lfpcrobj lfpcrobj
 #' @examples
-#' re<-hd_lfpca(Ydat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
-#' lpcr_lasso(Y,lfpca=re)
+
 #' @author Liwen Wu, Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
 #' @references
 #' TBA
@@ -21,7 +20,7 @@ ciplot.gg <- function(lfpcrobj, d){
   namelist = rownames(lfpcrobj$phix0)
   if (is.null(namelist)) namelist<-paste('X',1:nrow(lfpcrobj$phix0))
 
-  citable <- data.frame(x=rownames(lfpcrobj$phix0),y=colMeans(d),ylo=colQuantiles(d,probs=0.025),yhi=colQuantiles(d,probs=0.975))
+  citable <- data.frame(x=rownames(lfpcrobj$phix0),y=colMedians(d),ylo=colQuantiles(d,probs=0.025),yhi=colQuantiles(d,probs=0.975))
   citable <- transform(citable,y=exp(y),ylo=exp(ylo),yhi=exp(yhi))
   citable <- transform(citable,right=grepl('Right',citable[,1]))
   citable <- transform(citable, right =ifelse(right == TRUE,'Right Hemisphere','Left Hemisphere'), x=gsub('Right','',x))
