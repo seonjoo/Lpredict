@@ -14,10 +14,6 @@ ciplot.gg(lfpcrobj, d)
 \description{
 Draw 95\% Confidence Interval
 }
-\examples{
-re<-hd_lfpca(Ydat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
-lpcr_lasso(Y,lfpca=re)
-}
 \author{
 Liwen Wu, Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
 }
