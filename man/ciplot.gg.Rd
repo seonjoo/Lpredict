@@ -4,22 +4,25 @@
 \alias{ciplot.gg}
 \title{Draw 95\% Confidence Interval}
 \usage{
-ciplot.gg(lfpcrobj, d)
+ciplot.gg(lfpcrobj, d, exp = FALSE, yrange = c(-5, 5))
 }
 \arguments{
 \item{lfpcrobj}{lfpcrobj}
 
 \item{d}{Bootstrapped coefficients}
+
+\item{exp}{Whether take exponential for the estimated CIs.}
+
+\item{yrange}{set up range for the 95% CIs.}
 }
 \description{
 Draw 95\% Confidence Interval
 }
-\author{
-Liwen Wu, Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
-}
 \references{
 TBA
 }
+\author{
+Liwen Wu, Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
+}
 \keyword{glmnet}
 \keyword{hdlfpca}
-
