@@ -1,23 +1,51 @@
-#' Conduct longitudinal principal component analysis
+#' Conduct high-dimensional longitudinal principal component analysis
+#' For V-by-J dimensioanl matrix of Y, HDLPCA first reduce the dimension of p to J if V>J:
+#' Y = UDV
 #'
-#' @param Y A number
+#' Then longitudinal PCA is applied to the projected scores of Y on the p-dimensional subspace: \tilde{Y}=DY.
+#' The dimension of the subspace is selected based on the variance explained by first p-components.
+#' The default value is projectthresh=1.
+#'
+#' @param Y p-by-J matrix,
 #' @param T A number
-#' @param J A number
-#' @param I A number
-#' @param visit A number
-#' @param verbose A number
-#' @param Nx A number
-#' @param Nw A number
-#' @param varthresh A number
-#' @param projectthresh A number
+#' @param J Total number of observations
+#' @param I Total number of subjects
+#' @param visit Vector of number of visits per subjects
+#' @param verbose (default=FALSE)
+#' @param Nx Dimension of the subject-specific components
+#' @param Nw Dimension of the subject-visit specific components
+#' @param varthresh (default=0.99) Threshold for variance explained for both subject-specific and subject-visit specific compoents for dimension selection
+#' @param projectthresh Threshold for variance explain in the first step of SVD
 #' @param timeadjust A number
-#' @return xi
-#' @return phix0
-#' @return phix1
-#' @return zeta
-#' @return phiw
+#' @return xi : Subject-specific principal component scores.
+#' @return phix0: Subject-specific principal comonent loadings corresponding to intercept.
+#' @return phix1: Subject-specific principal comonent loadings corresponding to slope.
+#' @return zeta : Subject-visit-specific principal component scores.
+#' @return phiw : Subject-visit-specific principal comonent loadings
 #' @examples
-#' re<-hd_lfpca(Y,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
+#' set.seed(12345678)
+#' I=100
+#' visit=rpois(I,1)+3
+#' time = unlist(lapply(visit, function(x) scale(c(0,cumsum(rpois(x-1,1)+1)))))
+#' J = sum(visit)
+#' V=2500
+#' phix0 = matrix(0,V,3);phix0[1:50,1]<-.1;phix0[1:50 + 50,2]<-.1;phix0[1:50 + 100,3]<-.1
+#' phix1 = matrix(0,V,3);phix1[1:50+150,1]<-.1;phix1[1:50 + 200,2]<-.1;phix1[1:50 + 250,3]<-.1
+#' phiw = matrix(0,V,3);phiw[1:50+300,1]<-.1;phiw[1:50 + 350,2]<-.1;phiw[1:50 + 400,3]<-.1
+#' xi = t(matrix(rnorm(I*3),ncol=I)*c(8,4,2))*3
+#' zeta = t(matrix(rnorm(J*3),ncol=J)*c(8,4,2))*2
+#' Y = phix0%*% t(xi[rep(1:I, visit),]) + phix1%*% t(time * xi[rep(1:I, visit),]) + phiw %*% t(zeta) + matrix(rnorm(V*J,0,.1),V,J)
+#' library(Lpredict)
+#' re<-hd_lfpca(Y,T=scale(time,center=TRUE,scale=TRUE),J=J,I=I,visit=visit, varthresh=0.95, projectthresh=1,timeadjust=FALSE,figure=TRUE)
+#' cor(phix0, re$phix0)
+#' cor(phix1, re$phix1)
+#' library(gplots)
+#' par(mfrow=c(2,2),mar=rep(0.5,4),bg="gray")
+#' bs=c(-100:100)/1000*1.5
+#' image(phix0, axes=F,col=bluered(200),breaks=bs)
+#' image(re$phix0[,1:3], axes=F,col=bluered(200),breaks=bs)
+#' image(phix1, axes=F,col=bluered(200),breaks=bs)
+#' image(re$phix1[,1:3], axes=F,col=bluered(200),breaks=bs)
 #' @author Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
 #' @references Zipunnikov, V., Greven, S., Shou, H., Caffo, B., Reich, D. S., & Crainiceanu, C. (2014). Longitudinal High-Dimensional Principal Components Analysis with Application to Diffusion Tensor Imaging of Multiple Sclerosis. The Annals of Applied Statistics, 8(4), 2175–2202.
 #' @keywords hdlfpca glmnet
