@@ -1,13 +1,13 @@
 #' Conduct high-dimensional longitudinal principal component analysis
-#' For V-by-J dimensioanl matrix of Y, HDLPCA first reduce the dimension of p to J if V>J:
-#' Y = UDV
 #'
-#' Then longitudinal PCA is applied to the projected scores of Y on the p-dimensional subspace: \tilde{Y}=DY.
+#'
+#' For V-by-J dimensioanl matrix of Y, HDLPCA first reduce the dimension of p to J if V>J:
+#' Y = UDV. Then, longitudinal PCA is applied to the projected scores of Y on the p-dimensional subspace: \tilde{Y}=DY.
 #' The dimension of the subspace is selected based on the variance explained by first p-components.
 #' The default value is projectthresh=1.
 #'
 #' @param Y p-by-J matrix,
-#' @param T A number
+#' @param T Time of theimage collection
 #' @param J Total number of observations
 #' @param I Total number of subjects
 #' @param visit Vector of number of visits per subjects
@@ -16,7 +16,7 @@
 #' @param Nw Dimension of the subject-visit specific components
 #' @param varthresh (default=0.99) Threshold for variance explained for both subject-specific and subject-visit specific compoents for dimension selection
 #' @param projectthresh Threshold for variance explain in the first step of SVD
-#' @param timeadjust A number
+#' @param timeadjust (default=FALSE) Scale time per subject
 #' @return xi : Subject-specific principal component scores.
 #' @return phix0: Subject-specific principal comonent loadings corresponding to intercept.
 #' @return phix1: Subject-specific principal comonent loadings corresponding to slope.
@@ -51,7 +51,8 @@
 #' @keywords hdlfpca glmnet
 #' @export
 
-hd_lfpca= function(Y,T,J,I,visit, verbose=1, prefix=date(), Nx = NA,Nw = NA,varthresh=0.99,projectthresh=1, timeadjust=FALSE,figure=FALSE){
+hd_lfpca= function(Y,T,J,I,visit, verbose=1, prefix=date(), Nx = NA,Nw = NA,
+                   varthresh=0.99,projectthresh=1, timeadjust=FALSE,figure=FALSE){
   library(MASS)
   	#J: Total number visits out of all subjects (sum of visit)
 	#T must be centered+scaled time information

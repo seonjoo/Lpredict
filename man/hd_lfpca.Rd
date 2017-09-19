@@ -2,9 +2,7 @@
 % Please edit documentation in R/hd_lfpca.R
 \name{hd_lfpca}
 \alias{hd_lfpca}
-\title{Conduct high-dimensional longitudinal principal component analysis
-For V-by-J dimensioanl matrix of Y, HDLPCA first reduce the dimension of p to J if V>J:
-Y = UDV}
+\title{Conduct high-dimensional longitudinal principal component analysis}
 \usage{
 hd_lfpca(Y, T, J, I, visit, verbose = 1, prefix = date(), Nx = NA,
   Nw = NA, varthresh = 0.99, projectthresh = 1, timeadjust = FALSE,
@@ -13,7 +11,7 @@ hd_lfpca(Y, T, J, I, visit, verbose = 1, prefix = date(), Nx = NA,
 \arguments{
 \item{Y}{p-by-J matrix,}
 
-\item{T}{A number}
+\item{T}{Time of theimage collection}
 
 \item{J}{Total number of observations}
 
@@ -31,7 +29,7 @@ hd_lfpca(Y, T, J, I, visit, verbose = 1, prefix = date(), Nx = NA,
 
 \item{projectthresh}{Threshold for variance explain in the first step of SVD}
 
-\item{timeadjust}{A number}
+\item{timeadjust}{(default=FALSE) Scale time per subject}
 }
 \value{
 xi : Subject-specific principal component scores.
@@ -45,7 +43,8 @@ zeta : Subject-visit-specific principal component scores.
 phiw : Subject-visit-specific principal comonent loadings
 }
 \description{
-Then longitudinal PCA is applied to the projected scores of Y on the p-dimensional subspace: \tilde{Y}=DY.
+For V-by-J dimensioanl matrix of Y, HDLPCA first reduce the dimension of p to J if V>J:
+Y = UDV. Then, longitudinal PCA is applied to the projected scores of Y on the p-dimensional subspace: \tilde{Y}=DY.
 The dimension of the subspace is selected based on the variance explained by first p-components.
 The default value is projectthresh=1.
 }

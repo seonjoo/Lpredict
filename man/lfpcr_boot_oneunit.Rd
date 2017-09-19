@@ -29,10 +29,9 @@ lfpcr_boot_oneunit(datct = NULL, idlist = NULL, seednum = 1000,
 \description{
 Run one unit boot strapping
 }
-\author{
-Seonjoo lee \email{sl2670@cumc.columbia.edu}
-}
 \references{
 TBA
 }
-
+\author{
+Seonjoo lee \email{sl2670@cumc.columbia.edu}
+}

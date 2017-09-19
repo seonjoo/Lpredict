@@ -3,7 +3,6 @@
 #' @param Y Outcome in PCR
 #' @param Xmat Longitudinal Predictor Matrix
 #' @param cov Covariate
-#' @param type.measure (default= "auc")
 #' @param lfpca (default=NULL) LFPC results. If it is not specified, the following parameters have to be specified to run LPCA
 #' @param T Time of theimage collection
 #' @param J Total number of observations
@@ -15,12 +14,11 @@
 #' @param varthresh (default=0.99) Threshold for variance explained for both subject-specific and subject-visit specific compoents for dimension selection
 #' @param projectthresh Threshold for variance explain in the first step of SVD
 #' @param timeadjust (default=TRUE) Scale time per subject
-#' @return nonzeroindx Non-zero index including covariates
-#' @return nonzeroindx2 Non-zero index excluding covariates
-#' @return refit refitted regression object
-#' @return beta0 Estimated parameter for intercept
-#' @return beta1 Estimated parameter for slope
-#' @return auc : if type.measure = "auc", cross-validated
+#' @return xi
+#' @return phix0
+#' @return phix1
+#' @return zeta
+#' @return phiw
 #' @examples
 #' re<-hd_lfpca(Ydat,Xmat,T,J,I,visit, varthresh=0.85, timeadjust=FALSE)
 #' lpcr_lasso(Y,lfpca=re)
@@ -30,7 +28,6 @@
 #' @export
 
 lpcr_lasso <- function(Y,Xmat=NULL,lfpca=NULL, cov=NULL,
-                       type.measure='auc',
                        T=NULL,J=NULL,I=NULL,visit=NULL,
                        varthresh=0.85, timeadjust=FALSE,
                        nfold=10,lambdalist = 2^(c(-10:10)/2), penalty.factor=NULL, M=NULL,
@@ -42,7 +39,7 @@ lpcr_lasso <- function(Y,Xmat=NULL,lfpca=NULL, cov=NULL,
       print('LFPCA has not been run, and the required parameters for LFPCA were not specified.')
       break
     }else{
-        system.time(lfpca<-hd_lfpca(Y=Xmat,T=T,J=J,I=I,visit=visit,varthresh = varthresh, timeadjust=timeadjust))
+      system.time(lfpca<-hd_lfpca(Y=Xmat,T=T,J=J,I=I,visit=visit,varthresh = varthresh, timeadjust=timeadjust))
     }
   }
 
@@ -50,14 +47,14 @@ lpcr_lasso <- function(Y,Xmat=NULL,lfpca=NULL, cov=NULL,
     if(is.null(cov)) ncov=0
     else{
       ncov=1
-      }
-    }else{
+    }
+  }else{
     ncov=ncol(cov)
   }
 
   rownames(lfpca$xi)<-paste('LPC',1:lfpca$Nx,sep='')
   X = cbind(cov,t(lfpca$xi))
-#  print(head(X))
+  #  print(head(X))
   Nx = lfpca$Nx
 
   if(is.null(penalty.factor)){
@@ -70,7 +67,7 @@ lpcr_lasso <- function(Y,Xmat=NULL,lfpca=NULL, cov=NULL,
 
   ## lasso
   set.seed(seednum)
-  fitcv=cv.glmnet(X,Y, family='binomial', type.measure=type.measure,alpha = 1, lambda = lambdalist, nfold=nfold, penalty.factor=penalty.factor)
+  fitcv=cv.glmnet(X,Y, family='binomial', alpha = 1, lambda = lambdalist, nfold=nfold, penalty.factor=penalty.factor)
   fit = glmnet(X,Y, family='binomial', alpha = 1, lambda =fitcv$lambda.min, penalty.factor=penalty.factor)
   coefs <- coef(fit)
 
@@ -84,12 +81,12 @@ lpcr_lasso <- function(Y,Xmat=NULL,lfpca=NULL, cov=NULL,
     print(nonzeroindx)
   }
   nonzeroindx2 =  (coefs[-c(0:ncov +1)]!=0)
-## extract selected components
-#  if (is.null(M)) {
-#    logic <- (coef!=0)[-1]
-#  } else{
-#    logic <- (coef!=0)[-c(0:dim(M)[2]+1)]
-#  }
+  ## extract selected components
+  #  if (is.null(M)) {
+  #    logic <- (coef!=0)[-1]
+  #  } else{
+  #    logic <- (coef!=0)[-c(0:dim(M)[2]+1)]
+  #  }
   refit=NULL
   beta0=NULL
   beta1=NULL
@@ -98,15 +95,12 @@ lpcr_lasso <- function(Y,Xmat=NULL,lfpca=NULL, cov=NULL,
     refit = glmnet(X[,nonzeroindx],Y, family='binomial', alpha = 1, lambda =0)
     hattheta = as.matrix(coef(refit))
 
-#  print(dim(lfpca$phix0[,nonzeroindx2]))
-#  print(hattheta)
-#  print(ncov)
+    #  print(dim(lfpca$phix0[,nonzeroindx2]))
+    #  print(hattheta)
+    #  print(ncov)
     beta0 = lfpca$phix0[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
     beta1 = lfpca$phix1[,nonzeroindx2] %*% hattheta[-c(0:ncov +1)]
   }
-  if (type.measure=='auc'){
-  return(list(auc=max(fitcv$cvm),nonzeroindx = nonzeroindx, nonzeroindx2 = nonzeroindx2,refit=refit, beta0=beta0,beta1=beta1,hattheta=hattheta))
-  }else{return(list(nonzeroindx = nonzeroindx, nonzeroindx2 = nonzeroindx2,refit=refit, beta0=beta0,beta1=beta1,hattheta=hattheta))
-  }
+  return(list(nonzeroindx = nonzeroindx, nonzeroindx2 = nonzeroindx2,refit=refit, beta0=beta0,beta1=beta1,hattheta=hattheta))
 
 }

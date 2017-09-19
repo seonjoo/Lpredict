@@ -7,6 +7,6 @@ Author: Who wrote it
 Maintainer: Seonjoo Lee <yourfault@somewhere.net>
 Description: Prediction with high-dimensional longitudinal predictors using
     longitudinal principal component analysis
-License: 
+License: Empty
 LazyData: TRUE
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

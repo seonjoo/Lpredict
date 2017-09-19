@@ -4,7 +4,7 @@
 \alias{ciplot.gg}
 \title{Draw 95\% Confidence Interval}
 \usage{
-ciplot.gg(lfpcrobj, d, exp = FALSE, yrange = c(-5, 5))
+ciplot.gg(lfpcrobj, d, exp = FALSE, yrange = NULL, cirange = 0.95)
 }
 \arguments{
 \item{lfpcrobj}{lfpcrobj}

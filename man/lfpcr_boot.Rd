@@ -33,10 +33,9 @@ lfpcr_boot(datct = NULL, idlist = NULL, B = 100, idvar = NULL,
 \description{
 Run boot strapping to compute 95\% CI
 }
-\author{
-Seonjoo lee \email{sl2670@cumc.columbia.edu}
-}
 \references{
 TBA
 }
-
+\author{
+Seonjoo lee \email{sl2670@cumc.columbia.edu}
+}
