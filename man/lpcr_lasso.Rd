@@ -5,15 +5,17 @@
 \alias{lpcr_lasso}
 \title{Conduct longitudinal principal component regression analysis}
 \usage{
-lpcr_lasso(Y, Xmat = NULL, lfpca = NULL, cov = NULL, T = NULL,
-  J = NULL, I = NULL, visit = NULL, varthresh = 0.85,
-  timeadjust = FALSE, nfold = 10, lambdalist = 2^(c(-10:10)/2),
-  penalty.factor = NULL, M = NULL, seednum = 1234)
+lpcr_lasso(Y, Xmat = NULL, lfpca = NULL, cov = NULL,
+  type.measure = "auc", T = NULL, J = NULL, I = NULL, visit = NULL,
+  varthresh = 0.85, timeadjust = FALSE, nfold = 10,
+  lambdalist = 2^(c(-10:10)/2), penalty.factor = NULL, M = NULL,
+  seednum = 1234)
 
-lpcr_lasso(Y, Xmat = NULL, lfpca = NULL, cov = NULL, T = NULL,
-  J = NULL, I = NULL, visit = NULL, varthresh = 0.85,
-  timeadjust = FALSE, nfold = 10, lambdalist = 2^(c(-10:10)/2),
-  penalty.factor = NULL, M = NULL, seednum = 1234)
+lpcr_lasso(Y, Xmat = NULL, lfpca = NULL, cov = NULL,
+  type.measure = "auc", T = NULL, J = NULL, I = NULL, visit = NULL,
+  varthresh = 0.85, timeadjust = FALSE, nfold = 10,
+  lambdalist = 2^(c(-10:10)/2), penalty.factor = NULL, M = NULL,
+  seednum = 1234)
 }
 \arguments{
 \item{Y}{Outcome in PCR}
@@ -23,6 +25,8 @@ lpcr_lasso(Y, Xmat = NULL, lfpca = NULL, cov = NULL, T = NULL,
 \item{lfpca}{(default=NULL) LFPC results. If it is not specified, the following parameters have to be specified to run LPCA}
 
 \item{cov}{Covariate}
+
+\item{type.measure}{(default= "auc")}
 
 \item{T}{Time of theimage collection}
 
@@ -83,15 +87,17 @@ zeta
 
 phiw
 
-xi
+nonzeroindx Non-zero index including covariates
 
-phix0
+nonzeroindx2 Non-zero index excluding covariates
 
-phix1
+refit refitted regression object
 
-zeta
+beta0 Estimated parameter for intercept
 
-phiw
+beta1 Estimated parameter for slope
+
+auc : if type.measure = "auc", cross-validated
 }
 \description{
 Conduct longitudinal principal component regression analysis

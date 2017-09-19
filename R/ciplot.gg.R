@@ -2,13 +2,13 @@
 #'
 #' @param d Bootstrapped coefficients matrix.
 #' @param exp Whether take exponential for the estimated CIs.
-#' @param yrange set up range for the 95% CIs.
+#' @param yrange set up range for the 95\% CIs.
 #' @examples
-
+#' ciplot.gg(d)
 #' @author Liwen Wu, Seonjoo Lee, \email{sl3670@cumc.columbia.edu}
 #' @references
 #' TBA
-#' @keywords
+#' @keywords confidence interval
 #' @export
 
 ciplot.gg<-function (d, exp = FALSE, yrange = c(-5, 5),
